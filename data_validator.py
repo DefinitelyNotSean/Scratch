@@ -13,8 +13,18 @@ def load_excel(file_name, sheet_name):
 def load_json(file_name):
     with open(file_name, 'r') as file:
         data = json.load(file)
-    transformed_data = [{'name': item['name'], 'datatype': item['type'], 'isRequired': item['dmslCatalog']['dataQualityDetails']['isOptional']} for item in data['fields']]
+    
+    transformed_data = []
+    for item in data['fields']:
+        datatype = item['type']
+        if isinstance(datatype, dict):
+            datatype = datatype.get('logicalType', datatype['type'])
+            if datatype == "timestamp-millis":
+                datatype = "timestamp"
+        transformed_data.append({'name': item['name'], 'datatype': datatype, 'isRequired': not item['dmslCatalog']['dataQualityDetails']['isOptional']})
+
     return {item['name']: item for item in transformed_data}
+
 
 # Compare columns and print results
 def compare_columns(excel_data, json_data):
