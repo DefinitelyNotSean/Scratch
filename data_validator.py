@@ -84,4 +84,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+    
+    json_datatype_cell = (Fore.GREEN if e_item['datatype'] == j_item['datatype']
+                      else Fore.LIGHTRED_EX + Style.BRIGHT) + j_item['datatype'] + Style.RESET_ALL
+
 
