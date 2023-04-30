@@ -94,36 +94,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-    
-
-    
-    
-    def compare_columns(excel_data, json_data):
-    # ... (Same as before)
-
-    for key in all_keys:
-        e_item = excel_data.get(key)
-        j_item = json_data.get(key)
-
-        if e_item and j_item:
-            # ... (Same as before)
-        else:
-            excel_name_cell = (Fore.RED + key + Style.RESET_ALL) if e_item else "N/A"
-            json_name_cell = (Fore.RED + key + Style.RESET_ALL) if j_item else "N/A"
-
-            datatype_cell = (Fore.RED + e_item['datatype'] + Style.RESET_ALL) if e_item else "N/A"
-            json_datatype_cell = (Fore.RED + j_item['datatype'] + Style.RESET_ALL) if j_item else "N/A"
-
-            isrequired_cell = (Fore.RED + str(e_item['isRequired']) + Style.RESET_ALL) if e_item else "N/A"
-            json_isrequired_cell = (Fore.RED + str(j_item['isRequired']) + Style.RESET_ALL) if j_item else "N/A"
-
-            table.add_row([excel_name_cell, json_name_cell,
-                           datatype_cell, json_datatype_cell,
-                           isrequired_cell, json_isrequired_cell,
-                           Fore.RED + "False" + Style.RESET_ALL])
-
-    print(table)
-
-
-
