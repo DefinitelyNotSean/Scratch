@@ -3,7 +3,7 @@ import os
 
 def create_csv_from_excel(file_name, sheet_name):
     # read the excel file as all string type, skipping the first 4 rows
-    data = pd.read_excel(file_name, sheet_name=sheet_name, skiprows=range(4), dtype=str, engine='openpyxl')
+    data = pd.read_excel(file_name, sheet_name=sheet_name, skiprows=range(5), dtype=str, engine='openpyxl')
 
     # create output directory if it does not exist
     if not os.path.exists('output'):
