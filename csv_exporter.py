@@ -23,11 +23,20 @@ def create_csv_from_excel(file_name, sheet_name):
         # open the CSV file
         with open(output_file, 'w', newline='') as f:
             c = csv.writer(f)
+            blank_rows = 0  # counter for consecutive blank rows
             # for each row in the worksheet
             for i, row in enumerate(ws.values, start=1):
                 # skip the first 4 rows
                 if i <= 4:
                     continue
+                # if row is entirely blank, increase counter
+                if all(cell is None for cell in row):
+                    blank_rows += 1
+                else:
+                    blank_rows = 0  # reset counter if row is not blank
+                # stop processing once we encounter 2 consecutive blank rows
+                if blank_rows >= 2:
+                    break
                 # write the desired columns to the CSV file
                 c.writerow([cell for j, cell in enumerate(row, start=1) if j in columns])
 
