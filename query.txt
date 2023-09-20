@@ -1,0 +1,4 @@
+-- run a query then get its id
+set last_query_id = (select last_query_id());
+select sum(length(to_json(object_construct(a.*)))) table_encoded_size
+from table(result_scan($last_query_id)) a;
