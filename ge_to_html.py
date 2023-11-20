@@ -1,7 +1,64 @@
-import json
-from IPython.display import HTML, display
+# Improved HTML template with some basic styling for better appearance
 
-# Sample great_expectations output in JSON format
+improved_html_template = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Great Expectations Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #5D5C61;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #577590;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .success {
+            color: green;
+        }
+        .failure {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Great Expectations Validation Results</h2>
+    <table>
+        <tr>
+            <th>Expectation Type</th>
+            <th>Parameters</th>
+            <th>Success</th>
+            <th>Details</th>
+        </tr>
+        {rows}
+    </table>
+</body>
+</html>
+"""
+
+# Sample data (for demonstration purposes)
 great_expectations_json = """
 {
     "success": true,
@@ -31,34 +88,25 @@ great_expectations_json = """
 # Parse the JSON string
 great_expectations_data = json.loads(great_expectations_json)
 
-# HTML template for displaying the data
-html_template = """
-<h2>Great Expectations Validation Results</h2>
-<table border="1">
-    <tr>
-        <th>Expectation Type</th>
-        <th>Parameters</th>
-        <th>Success</th>
-        <th>Details</th>
-    </tr>
-    {rows}
-</table>
-"""
-
-# Generate table rows from the data
+# Generate table rows with styling based on success or failure
 rows = ""
 for result in great_expectations_data["results"]:
+    success_class = "success" if result['success'] else "failure"
     rows += f"""
     <tr>
         <td>{result['expectation_type']}</td>
         <td>{json.dumps(result['kwargs'])}</td>
-        <td>{'✅' if result['success'] else '❌'}</td>
+        <td class="{success_class}">{result['success']}</td>
         <td>{json.dumps(result['result'])}</td>
     </tr>
     """
 
-# Complete HTML
-complete_html = html_template.format(rows=rows)
+# Complete HTML with styling
+improved_complete_html = improved_html_template.format(rows=rows)
 
-# Display the HTML
-display(HTML(complete_html))
+# Write HTML to a file
+with open("/mnt/data/great_expectations_results_styled.html", "w") as file:
+    file.write(improved_complete_html)
+
+"HTML file created with improved styling. You can download and view it in a web browser."
+
