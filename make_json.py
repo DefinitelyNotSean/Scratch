@@ -34,3 +34,19 @@ def simple_string_to_json(s):
 simple_json_udf = udf(simple_string_to_json)
 
 df.withColumn("json", simple_json_udf("raw_string")).show(truncate=False)
+
+
+# 4.
+from pyspark.sql.functions import udf
+import json
+
+def simple_string_to_json(s):
+    # Split the string into key-value pairs, then directly create a dictionary
+    # and convert it to a JSON string
+    return json.dumps(dict(item.split(":") for item in s.split(", ")))
+
+simple_json_udf = udf(simple_string_to_json)
+
+# Applying the UDF to your DataFrame
+df_with_json = df.withColumn("json", simple_json_udf("raw_string"))
+
